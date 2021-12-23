@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Web Component: &lt;yauction-product-picker /&gt; - web components based product picker (TW Yahoo Auction)</title>
+<meta name="description" content="To display specific promotion module, users might like to pick products to list by themselves. That's why I design <yauction-product-picker /> to fulfill this request. With <yauction-product-picker />, users could search products by keyword & category easily. Besides that, <yauction-product-picker /> also provide property and method to switch seller role and setting. Infinite scroll feature has already built with it and user could browse product cells smoothly." />
+<script type="module" src="mjs/wc-yauction-product-picker.js"></script>
+<style>
+/*** The new CSS Reset - version 1.4.2 (last updated 30.11.2021) ***/
+/* All rights reserved from https://elad2412.github.io/the-new-css-reset/ */
+*:where(:not(iframe,canvas,img,svg,video):not(svg *,symbol *)){all:unset;display:revert;}
+*,*::before,*::after{box-sizing:border-box;}
+ol,ul,menu{list-style:none;}
+img{max-width:100%;}
+table{border-collapse:collapse;}
+textarea{white-space:revert;}
+:where([contenteditable]){-moz-user-modify:read-write;-webkit-user-modify:read-write;overflow-wrap:break-word;-webkit-line-break:after-white-space;}
+
+/* page */
+html,body{font-family:system-ui,sans-serif;text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;font-size:16px;}
+#hd,#ft{display:none;}
+
+body{position:relative;inline-size:100vw;block-size:100vh;}
+.triggers{position:absolute;inset-inline-start:50%;inset-block-start:50%;inline-size:260px;transform:translate(-50%,-50%);}
+.ypp-trigger{font-size:1.125em;color:#b60845;width:100%;height:2.77em;line-height:2.55;box-sizing:border-box;border:2px solid #b60845;border-radius:2.77em;text-align:center;text-transform:uppercase;transition:color 250ms ease,border-color 250ms ease;will-change:color,border-color;cursor:pointer;letter-spacing:.2em;display:block;user-select:none;text-decoration:none}
+.ypp-trigger:hover{font-weight:400;color:#db004d;border-color:#db004d;}
+.ypp-trigger{--ripple-color:rgba(182,8,69,.2);--duration:1.2s;}
+
+.ypp-trigger:nth-of-type(1){color:#4a8af1;border-color:#4a8af1;--ripple-color:rgba(74,138,241,.2);}
+.ypp-trigger:nth-of-type(1):hover{color:#1b71fa;border-color:#1b71fa;}
+
+.ypp-trigger:nth-of-type(2){color:#b60845;border-color:#b60845;--ripple-color:rgba(112,58,217,.2);}
+.ypp-trigger:nth-of-type(2):hover{color:#db004d;border-color:#db004d;}
+
+.ypp-trigger+.ypp-trigger{margin-top:2em;}
+
+.ypp-wrap{position:fixed;inset-inline-start:0;inset-block-start:0;inline-size:0;block-size:0;background-color:#fff;z-index:1000;pointer-events:none;overflow:hidden;}
+.ypp-wrap--active{inline-size:100%;block-size:100%;pointer-events:auto;}
+
+/* yauction-product-picker */
+yauction-product-picker:not(:defined){visibility:hidden;}
+</style>
+</head>
+
+<body>
+
+<div class="triggers">
+  <a href="#pickProducts" class="ypp-trigger" data-type="empty">Pick Products</a>
+  <a href="#pickProducts" class="ypp-trigger" data-type="placeholder">Pick Products</a>
+</div>
+
+<div class="ypp-wrap">
+  <yauction-product-picker>
+    <script type="application/json">
+      {
+        "storeid": "Y0174493470",
+        "env": "prod",
+        "maxcount": 10,
+        "l10n": {
+          "placeholder": "請輸入關鍵字搜尋商品",
+          "selectCategory": "請選擇分類",
+          "all": "全部商品",
+          "submit": "確定選取"
+        },
+        "params": {
+          "spaceId": "2092115381",
+          "sort": "launchedTime"
+        }
+      }
+    </script>
+  </yauction-product-picker>
+</div>
+
+<script>
+customElements.whenDefined('yauction-product-picker').then(() => {
+  const triggers = document.querySelector('.triggers');
+  const wrap = document.querySelector('.ypp-wrap'); 
+  const ypp = document.querySelector('yauction-product-picker'); 
+  const evts = [
+      'ypp-close',
+      'ypp-submit',
+      'ypp-selected-change'
+  ];
+  const handler = (evt) => {
+    const { type, target, detail } = evt;
+
+    if (detail) {
+      console.log(type, detail);
+    } else {
+      console.log(type);
+    }
+
+    switch (type) {
+      case 'ypp-close':
+        wrap.classList.remove('ypp-wrap--active');
+        break;
+      case 'ypp-submit':
+        const { selectedProducts } = detail;
+        wrap.classList.remove('ypp-wrap--active');
+        alert(`You've picked ${selectedProducts.length > 0 ? 'these products:' : 'product'} ${selectedProducts.join()}`);
+        break;
+      case 'ypp-selected-change':
+        break;
+    }
+  };
+
+  // evt
+  evts.forEach((evt) => ypp.addEventListener(evt, handler));
+  triggers.addEventListener('click',
+    (evt) => {
+      const a = evt.target.closest('a');
+      if (!a) {
+        return;
+      }
+
+      evt.preventDefault();
+      
+      if (a.dataset.type === 'empty') {
+        ypp.storeid = 'Y0174493470'; // 豆嫂的零食雜貨店
+        ypp.show();
+      } else {
+        ypp.storeid = 'Y8722130557'; // 窩窩宅 滿1000免運
+        ypp.show({
+          productIds:[
+            '101056169643',
+            '101023641341',
+            '101011522685',
+            '101011512475',
+            '101011506469'
+          ]
+        });
+      }
+
+      wrap.classList.add('ypp-wrap--active');
+    }
+  );
+});
+</script>
+
+</body>
+
+</html>
