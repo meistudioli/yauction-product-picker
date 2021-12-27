@@ -1,0 +1,25 @@
+{
+  "name": "yauction-product-picker",
+  "version": "1.0.1",
+  "description": "To display specific promotion module, users might like to pick products to list by themselves. That's why I design <yauction-product-picker /> to fulfill this request. With <yauction-product-picker />, users could search products by keyword & category easily. Besides that, <yauction-product-picker /> also provide property and method to switch seller role and setting. Infinite scroll feature has already built with it and user could browse product cells smoothly.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meistudioli/yauction-product-picker.git"
+  },
+  "keywords": [
+    "web",
+    "front-end",
+    "web component",
+    "commerce"
+  ],
+  "author": "Paul Li",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/meistudioli/yauction-product-picker/issues"
+  },
+  "homepage": "https://github.com/meistudioli/yauction-product-picker#readme"
+}

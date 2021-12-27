@@ -1,10 +1,11 @@
 # YAuction Product Picker
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/yauction-product-picker)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/yauction-product-picker) [![DeepScan grade](https://deepscan.io/api/teams/16372/projects/19647/branches/513178/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=16372&pid=19647&bid=513178)
 
 
 To display specific promotion module, users might like to pick products to list by themselves. That's why I design &lt;yauction-product-picker /> to fulfill this request. With &lt;yauction-product-picker />, users could search products by keyword &amp; category easily. Besides that, &lt;yauction-product-picker /> also provide property and method to switch seller role and setting. Infinite scroll feature has already built with it and user could browse product cells smoothly.
 
+![<yauction-product-picker />](https://blog.lalacube.com/mei/img/preview/yec-product-picker.png)
 
 ## Basic Usage
 
@@ -116,7 +117,7 @@ yauction-product-picker {
 
 &lt;yauction-product-picker /&gt; supports some attributes to let it become more convenience & useful.
 
-- storeid
+- **storeid**
 
 Set store id then user could browse its product listings. When storeid changed, &lt;yauction-product-picker /&gt; will auto fetch its `categories`.
 
@@ -127,7 +128,7 @@ Set store id then user could browse its product listings. When storeid changed, 
 ></yauction-product-picker>
 ```
 
-- maxcount
+- **maxcount**
 
 Set max select count. Once user reach this count they can not pick product cell anymore until unpick product. (default is `10`)
 
@@ -138,7 +139,7 @@ Set max select count. Once user reach this count they can not pick product cell 
 ></yauction-product-picker>
 ```
 
-- l10n
+- **l10n**
 
 Set localization for UI display. It combines several keys that's why it accept JSON string only.
 
@@ -149,7 +150,7 @@ Set localization for UI display. It combines several keys that's why it accept J
 ></yauction-product-picker>
 ```
 
-- params
+- **params**
 
 Set parameters for uther API fetch.(`spaceId` can not be null)
 
@@ -164,7 +165,7 @@ Set parameters for uther API fetch.(`spaceId` can not be null)
 
 Here comes methods which &lt;yauction-product-picker /&gt; supported.
 
-- show
+- **show**
 
 Display &lt;yauction-product-picker />&gt;. This method accepts two parameter: productIds, maxcount. Both of them are optional.
 
@@ -184,7 +185,7 @@ picker.show(
 </script>
 ```
 
-- close
+- **close**
 
 Turn off &lt;yauction-product-picker /&gt;.
 
@@ -206,7 +207,7 @@ picker.close();
 | active | Boolean | Getter for <yec-product-pick /> status. |
 | limit | Number | Getter for fetch uther API parameter > limit. |
 
-## Event
+## Events
 
 | Event Signature | Description |
 | ----------- | ----------- |

@@ -472,57 +472,21 @@ export class YauctionProductPicker extends HTMLElement {
 
   async connectedCallback() {
     const { select, selected, input, grid, loader, btnClose, btnSubmit } = this.#nodes;
-    
-    const remoteconfig = this.getAttribute('remoteconfig');
-    const script = this.querySelector('script');
+    const { config, error } = await _wcl.getWCConfig(this);
 
-    if (remoteconfig) {
-      // fetch remote config once [remoteconfig] exist
-      try {
-        const configUrl = new URL(remoteconfig);
-        const resConfig = await fetch(configUrl.toString(), {
-          headers: {
-            'content-type': 'application/json'
-          },
-          method: 'GET',
-          mode: 'cors'
-        })
-        .then((response) => response.json())
-        .catch(
-          (err) => {
-            console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
-            return {};
-          }
-        );
-
-        this.#config = {
-          ...this.#config,
-          ...resConfig
-        };
-      } catch(err) {
-        console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
-        this.remove();
-        return;
-      }
-    } else if (script) {
-      // apply inner script's config
-      try {
-        this.#config = {
-          ...this.#config,
-          ...JSON.parse(script.textContent.replace(/\n/g, '').trim())
-        };
-      } catch(err) {
-        console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${err.message}`);
-        this.remove();
-        return;
-      }
+    if (error) {
+      console.warn(`${_wcl.classToTagName(this.constructor.name)}: ${error}`);
+      this.remove();
+      return;
+    } else {
+      this.#config = {
+        ...this.#config,
+        ...config
+      };
     }
 
-    Object.keys(defaults).forEach(
-      (key) => {
-        this._upgradeProperty(key);
-      }
-    , this);
+    // upgradeProperty
+    Object.keys(defaults).forEach((key) => this._upgradeProperty(key));
 
     // categories
     this._genCategories();
@@ -547,6 +511,7 @@ export class YauctionProductPicker extends HTMLElement {
 
   disconnectedCallback() {
     const { io, controller } = this.#data;
+    const { loader } = this.#nodes;
 
     // io
     if (io) {
@@ -636,9 +601,9 @@ export class YauctionProductPicker extends HTMLElement {
 
   set storeid(value) {
     if (value) {
-      return this.setAttribute('storeid', value);
+      this.setAttribute('storeid', value);
     } else {
-      return this.removeAttribute('storeid');
+      this.removeAttribute('storeid');
     }
   }
 
@@ -648,9 +613,9 @@ export class YauctionProductPicker extends HTMLElement {
 
   set maxcount(value) {
     if (value) {
-      return this.setAttribute('maxcount', value);
+      this.setAttribute('maxcount', value);
     } else {
-      return this.removeAttribute('maxcount');
+      this.removeAttribute('maxcount');
     }
   }
 
@@ -664,9 +629,9 @@ export class YauctionProductPicker extends HTMLElement {
         ...this.params,
         ...(typeof value === 'string' ? JSON.parse(value) : value)
       }
-      return this.setAttribute('params', JSON.stringify(newValue));
+      this.setAttribute('params', JSON.stringify(newValue));
     } else {
-      return this.removeAttribute('params');
+      this.removeAttribute('params');
     }
   }
 
@@ -680,9 +645,9 @@ export class YauctionProductPicker extends HTMLElement {
         ...this.l10n,
         ...(typeof value === 'string' ? JSON.parse(value) : value)
       }
-      return this.setAttribute('l10n', JSON.stringify(newValue));
+      this.setAttribute('l10n', JSON.stringify(newValue));
     } else {
-      return this.removeAttribute('l10n');
+      this.removeAttribute('l10n');
     }
   }
 
