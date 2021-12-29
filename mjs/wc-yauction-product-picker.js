@@ -577,7 +577,7 @@ export class YauctionProductPicker extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return Object.keys(defaults).filter(key => !['limit'].includes(key)); // YauctionProductPicker.observedAttributes
+    return Object.keys(defaults).filter((key) => !['limit'].includes(key)); // YauctionProductPicker.observedAttributes
   }
 
   _upgradeProperty(prop) {
@@ -628,7 +628,7 @@ export class YauctionProductPicker extends HTMLElement {
       const newValue = {
         ...this.params,
         ...(typeof value === 'string' ? JSON.parse(value) : value)
-      }
+      };
       this.setAttribute('params', JSON.stringify(newValue));
     } else {
       this.removeAttribute('params');
@@ -644,7 +644,7 @@ export class YauctionProductPicker extends HTMLElement {
       const newValue = {
         ...this.l10n,
         ...(typeof value === 'string' ? JSON.parse(value) : value)
-      }
+      };
       this.setAttribute('l10n', JSON.stringify(newValue));
     } else {
       this.removeAttribute('l10n');
@@ -747,7 +747,7 @@ export class YauctionProductPicker extends HTMLElement {
         removes.push(key);
       }
     }
-    removes.forEach(key => formData.delete(key));
+    removes.forEach((key) => formData.delete(key));
 
     return formData;
   }
@@ -763,7 +763,7 @@ export class YauctionProductPicker extends HTMLElement {
       return '';
     }
 
-    return s + number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') // add ',' at every 3 digit
+    return s + number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'); // add ',' at every 3 digit
   }
 
   _utherUnitNormalizer(products = []) {
@@ -1001,11 +1001,11 @@ export class YauctionProductPicker extends HTMLElement {
     this.#nodes.btnClose.click();
   }
 
-  _onSelectChange(evt) {
+  _onSelectChange() {
     this._genProducts({ reset:true });
   }
 
-  _onInput(evt) {
+  _onInput() {
     /*
      * clone "input-debounced", only fires when 300ms have passed after the value of the input has stopped changing
      * https://amp.dev/documentation/guides-and-tutorials/learn/amp-actions-and-events/
